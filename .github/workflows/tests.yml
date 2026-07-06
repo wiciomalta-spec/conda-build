@@ -5,7 +5,8 @@ on:
   push:
     branches:
       - main
-      - feature/**`n      - feat/**
+      - feature/**
+      - feat/**
       - '[0-9].*.x'  # e.g., 3.24.x
       - '[0-9][0-9].*.x'  # e.g., 23.3.x
 
@@ -612,3 +613,4 @@ jobs:
               --body "$BODY" \
               --label "¡blocking!,type::bug,type::testing,source::auto"
           fi
+
