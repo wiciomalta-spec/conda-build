@@ -28,3 +28,5 @@ rever/
 
 # setuptools-scm
 conda_build/_version.py
+
+conda-build/
