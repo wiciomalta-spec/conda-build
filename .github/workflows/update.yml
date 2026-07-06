@@ -1,10 +1,14 @@
 name: Update Repository
 
 on:
+  workflow_dispatch:
+  
   # every Sunday at 00:36 UTC
   # https://crontab.guru/#36_2_*_*_0
   schedule:
-    - cron: 36 2 * * 0
+    - cron:
+  workflow_dispatch:
+  36 2 * * 0
 
   workflow_dispatch:
 
@@ -18,7 +22,9 @@ permissions:
 jobs:
   update:
     name: Update repository files
-    runs-on: ubuntu-slim
+    runs-on:
+  workflow_dispatch:
+  ubuntu-slim
     permissions:
       contents: write  # Required to commit synced template and workflow updates.
       pull-requests: write  # Required to open the generated update pull request.

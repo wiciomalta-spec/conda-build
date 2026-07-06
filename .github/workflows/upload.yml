@@ -1,6 +1,8 @@
 name: Upload release
 
 on:
+  workflow_dispatch:
+  
   # https://docs.github.com/en/webhooks/webhook-events-and-payloads#release
   release:
     types: [published]
@@ -22,7 +24,9 @@ jobs:
   # URL to the archive: https://github.com/conda/<repo>/releases/download/<tag>/<repo>-<tag>.tar.gz
   upload:
     if: '!github.event.repository.fork'
-    runs-on: ubuntu-latest
+    runs-on:
+  workflow_dispatch:
+  ubuntu-latest
     env:
       ARCHIVE_NAME: ${{ github.event.repository.name }}-${{ github.event.release.tag_name }}
     steps:

@@ -1,6 +1,8 @@
 name: CI docs
 
 on:
+  workflow_dispatch:
+  
   # NOTE: github.event context is push payload:
   # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#push
   push:
@@ -20,7 +22,9 @@ on:
 jobs:
   docs:
     if: '!github.event.repository.fork'
-    runs-on: ubuntu-latest
+    runs-on:
+  workflow_dispatch:
+  ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:

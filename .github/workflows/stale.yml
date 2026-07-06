@@ -1,18 +1,24 @@
 name: Stale
 
 on:
+  workflow_dispatch:
+  
   # NOTE: github.event is workflow_dispatch payload:
   # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#workflow_dispatch
   workflow_dispatch:
     inputs:
       dryrun:
-        description: 'dryrun: Preview stale issues/prs without marking them (true|false)'
+        description:
+  workflow_dispatch:
+  'dryrun: Preview stale issues/prs without marking them (true|false)'
         required: true
         type: boolean
         default: true
 
   schedule:
-    - cron: 0 4 * * *
+    - cron:
+  workflow_dispatch:
+  0 4 * * *
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.repository }}
@@ -25,7 +31,9 @@ jobs:
   stale:
     name: Mark stale threads
     if: '!github.event.repository.fork'
-    runs-on: ubuntu-slim
+    runs-on:
+  workflow_dispatch:
+  ubuntu-slim
     permissions:
       issues: write  # Required to mark and close stale issues.
       pull-requests: write  # Required to mark and close stale pull requests.
@@ -67,7 +75,9 @@ jobs:
           # Label to apply on closed issues
           close-issue-label: stale::closed
           # Reason to use when closing issues
-          close-issue-reason: not_planned
+          close-issue-reason:
+  workflow_dispatch:
+  not_planned
 
           # Comment on the staled PRs
           stale-pr-message: ${{ fromJSON(steps.read_yaml.outputs.value)['stale-pr'] }}

@@ -1,6 +1,8 @@
 name: Automate Issues
 
 on:
+  workflow_dispatch:
+  
   # NOTE: github.event is issue_comment payload:
   # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#issue_comment
   issue_comment:
@@ -28,7 +30,9 @@ jobs:
       !github.event.repository.fork
       && !github.event.issue.pull_request
       && contains(github.event.issue.labels.*.name, 'pending::feedback')
-    runs-on: ubuntu-slim
+    runs-on:
+  workflow_dispatch:
+  ubuntu-slim
     permissions:
       contents: read
       issues: write  # Required to remove and add issue triage labels.

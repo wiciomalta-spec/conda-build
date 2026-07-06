@@ -3,15 +3,21 @@
 name: Slow Test Review
 
 on:
+  workflow_dispatch:
+  
   # every Monday at 04:00 UTC (after Sunday's update.yml at 02:36 UTC)
   # https://crontab.guru/#0_4_*_*_1
   schedule:
-    - cron: 0 4 * * 1
+    - cron:
+  workflow_dispatch:
+  0 4 * * 1
 
   workflow_dispatch:
     inputs:
       dry_run:
-        description: Dry run - do not create/modify issues
+        description:
+  workflow_dispatch:
+  Dry run - do not create/modify issues
         required: false
         type: boolean
         default: false
@@ -78,7 +84,9 @@ env:
 jobs:
   review:
     if: '!github.event.repository.fork'
-    runs-on: ubuntu-slim
+    runs-on:
+  workflow_dispatch:
+  ubuntu-slim
     steps:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y gettext-base
@@ -155,7 +163,9 @@ jobs:
           BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/main/durations
         run: |
           # Combine all durations, keeping max and tracking which platform
-          # Format: {test_name: {duration: N, platform: "X"}}
+          # Format: {test_name: {duration:
+  workflow_dispatch:
+  N, platform: "X"}}
           echo "{}" > /tmp/all_durations.json
           fetched=""
           missing=""
@@ -178,7 +188,9 @@ jobs:
             # jq: for each test, keep the max duration across platforms
             # and record which platform had that max ensuring we report the
             # slowest instance of each test regardless of platform
-            # Output format: {test_name: {duration: N, platform: "X"}, ...}
+            # Output format: {test_name: {duration:
+  workflow_dispatch:
+  N, platform: "X"}, ...}
             jq -s --arg platform "$platform" '
               .[0] as $existing |
               .[1] as $new |
@@ -187,9 +199,13 @@ jobs:
                 ($existing[$k].duration // 0) as $old_dur |
                 ($new[$k] // 0) as $new_dur |
                 if $new_dur > $old_dur then
-                  {($k): {duration: $new_dur, platform: $platform}}
+                  {($k): {duration:
+  workflow_dispatch:
+  $new_dur, platform: $platform}}
                 else
-                  {($k): ($existing[$k] // {duration: 0, platform: $platform})}
+                  {($k): ($existing[$k] // {duration:
+  workflow_dispatch:
+  0, platform: $platform})}
                 end
               ) | add
             ' /tmp/all_durations.json "/tmp/${platform}.json" > /tmp/merged.json

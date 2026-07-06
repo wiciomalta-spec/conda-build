@@ -1,17 +1,23 @@
 name: Sync Labels
 
 on:
+  workflow_dispatch:
+  
   # NOTE: github.event is workflow_dispatch payload:
   # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#workflow_dispatch
   workflow_dispatch:
     inputs:
       delete-unmapped:
-        description: Delete labels not mapped in either global or local label configurations.
+        description:
+  workflow_dispatch:
+  Delete labels not mapped in either global or local label configurations.
         default: false
         type: boolean
 
       dry-run:
-        description: Run label synchronization workflow without making any changes.
+        description:
+  workflow_dispatch:
+  Run label synchronization workflow without making any changes.
         default: false
         type: boolean
 
@@ -26,7 +32,9 @@ jobs:
   sync:
     name: Sync labels
     if: '!github.event.repository.fork'
-    runs-on: ubuntu-slim
+    runs-on:
+  workflow_dispatch:
+  ubuntu-slim
     permissions:
       contents: read
       issues: write  # Required to create, update, and delete repository issue labels.

@@ -1,6 +1,8 @@
 name: CLA
 
 on:
+  workflow_dispatch:
+  
   issue_comment:
     types:
       - created
@@ -23,7 +25,9 @@ jobs:
         && github.event.comment.body == '@conda-bot check'
         || github.event_name == 'pull_request_target'
       )
-    runs-on: ubuntu-slim
+    runs-on:
+  workflow_dispatch:
+  ubuntu-slim
     permissions:
       contents: read
       pull-requests: write  # Required to update labels and comments on pull requests.

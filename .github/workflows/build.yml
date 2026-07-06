@@ -3,6 +3,8 @@
 name: Canary Builds
 
 on:
+  workflow_dispatch:
+  
   # Build canaries from PRs labeled build::review.
   pull_request:
     types:
@@ -31,7 +33,9 @@ jobs:
     if: >-
       !github.event.repository.fork
       && github.event.label.name == 'build::review'
-    runs-on: ubuntu-slim
+    runs-on:
+  workflow_dispatch:
+  ubuntu-slim
     steps:
       - name: Remove build label
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
@@ -82,15 +86,25 @@ jobs:
     strategy:
       matrix:
         include:
-          - runs-on: ubuntu-latest
+          - runs-on:
+  workflow_dispatch:
+  ubuntu-latest
             subdir: linux-64
-          - runs-on: ubuntu-24.04-arm
+          - runs-on:
+  workflow_dispatch:
+  ubuntu-24.04-arm
             subdir: linux-aarch64
-          - runs-on: macos-latest
+          - runs-on:
+  workflow_dispatch:
+  macos-latest
             subdir: osx-arm64
-          - runs-on: windows-latest
+          - runs-on:
+  workflow_dispatch:
+  windows-latest
             subdir: win-64
-    runs-on: ${{ matrix.runs-on }}
+    runs-on:
+  workflow_dispatch:
+  ${{ matrix.runs-on }}
     steps:
       # Clean checkout of specific git ref needed for package metadata version
       # which needs env vars GIT_DESCRIBE_TAG, GIT_DESCRIBE_NUMBER, GIT_DESCRIBE_HASH,
@@ -105,7 +119,9 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
-          python-version: '3.11'
+          python-version:
+  workflow_dispatch:
+  '3.11'
 
       - name: Detect Label
         shell: python
@@ -148,7 +164,9 @@ jobs:
       - name: Create & Upload
         uses: conda/actions/canary-release@7f6830b1428a9bd47f0b068892c77eae95207037 # v26.1.0
         env:
-          _CONDA_BUILD_ISOLATED_ACTIVATION: 1
+          _CONDA_BUILD_ISOLATED_ACTIVATIon:
+  workflow_dispatch:
+  1
         with:
           package-name: ${{ github.event.repository.name }}
           subdir: ${{ matrix.subdir }}
@@ -175,7 +193,9 @@ jobs:
           && endsWith(github.ref_name, '.x')
         )
       )
-    runs-on: ubuntu-slim
+    runs-on:
+  workflow_dispatch:
+  ubuntu-slim
     steps:
       - name: Report canary failure
         env:
