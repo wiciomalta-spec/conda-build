@@ -127,6 +127,7 @@ jobs:
           Path(environ["GITHUB_ENV"]).write_text("\n".join(f"{name}={value}" for name, value in envs.items()))
 
       - name: Create & Upload
+        if: ${{ !github.event.repository.fork }}
         uses: conda/actions/canary-release@v1
         with:
           anaconda-org: ${{ secrets.ANACONDA_OR }}
