@@ -1,0 +1,34 @@
+name: CodSpeed Benchmarks
+
+on:
+  push:
+    branches:
+      - "main" # or "master"
+  pull_request:
+  # `workflow_dispatch` allows CodSpeed to trigger backtest
+  # performance analysis in order to generate initial data.
+  workflow_dispatch:
+
+jobs:
+  benchmarks:
+    name: Run benchmarks (Shard #\${{ matrix.shard }})
+    runs-on: ubuntu-latest
+    permissions: # optional for public repositories
+      contents: read # required for actions/checkout
+      id-token: write # required for OIDC authentication with CodSpeed
+    strategy:
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install required-version defined in uv.toml
+        uses: astral-sh/setup-uv@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.12.8
+      - name: Run the benchmarks
+        if: ${{ !github.event.repository.fork }}
+        uses: CodSpeedHQ/action@v4
+        with:
+          mode: simulation
+          run: uv run pytest tests/benchmarks/ --codspeed --test-group=${{ matrix.shard }} --test-group-count=4
