@@ -32,3 +32,7 @@ conda_build/_version.py
 # CI logs
 macos314.log
 macos_fail.log
+
+# local CI logs
+macos314.log
+macos_fail.log
