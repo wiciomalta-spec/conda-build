@@ -19,14 +19,22 @@ jobs:
         shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v5
+
       - name: Install required-version defined in uv.toml
         uses: astral-sh/setup-uv@v7
+
       - uses: actions/setup-python@v6
         with:
           python-version: 3.12.8
+
       - name: Run the benchmarks
-        if: ${{ !github.event.repository.fork }}       
         uses: CodSpeedHQ/action@v4
         with:
           mode: simulation
           run: uv run pytest tests/benchmarks/ --codspeed --test-group=${{ matrix.shard }} --test-group-count=4
+
+      - name: Upload CodSpeed results
+        if: ${{ !github.event.repository.fork }}
+        uses: CodSpeedHQ/upload-action@v4
+        with:
+          token: ${{ secrets.CODSPEED_TOKEN }}
