@@ -1,0 +1,3 @@
+[submodule "conda-build"]
+	path = conda-build
+	url = https://github.com/<owner>/conda-build.git
